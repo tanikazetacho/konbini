@@ -67,7 +67,9 @@ Esta aplicación incluye soporte para React Developer Tools durante el desarroll
 
 ### 🧩 Cómo funciona
 
-- La extensión de React DevTools fue descargada localmente desde Chrome y copiada al directorio del proyecto en `extensions/react-devtools/`.
+> 🔗 Basado en la guía oficial de Electron: https://www.electronjs.org/docs/latest/tutorial/devtools-extension
+
+- La extensión de React DevTools versión 6.1.5 fue descargada localmente desde Chrome y copiada al directorio del proyecto en `extensions/react-devtools/`.
 - Electron carga esa extensión automáticamente desde esa ruta al iniciar en modo desarrollo.
 - El hook `__REACT_DEVTOOLS_GLOBAL_HOOK__` se expone desde el `preload.ts` para que DevTools pueda engancharse.
 - En algunos entornos, la pestaña ⚛️ Components no aparece al primer render. Puedes forzarla recargando la ventana con `Cmd + R`.
