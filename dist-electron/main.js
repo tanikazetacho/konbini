@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron';
+import { app, BrowserWindow, session } from 'electron';
 import * as path from 'node:path';
 import { fileURLToPath } from 'node:url';
 // Disable Electron's security warning during development.
@@ -14,11 +14,21 @@ function createWindow() {
         height: 768,
         webPreferences: {
             preload: path.join(__dirname, 'preload.cjs'),
+            contextIsolation: true,
         },
     });
+    console.log('✅ Electron main process is running...');
     if (isDev) {
         win.loadURL('http://localhost:5173');
         win.webContents.openDevTools();
+        const devtoolsPath = path.join(__dirname, '../extensions/react-devtools');
+        session.defaultSession.loadExtension(devtoolsPath, { allowFileAccess: true })
+            .then(() => console.log('✅ React DevTools loaded from local copy'))
+            .catch((err) => console.error('Failed to load React DevTools:', err));
+        session.defaultSession
+            .loadExtension(devtoolsPath, { allowFileAccess: true })
+            .then((ext) => console.log(`React DevTools loaded: ${ext.name}`))
+            .catch((err) => console.error('Failed to load React DevTools:', err));
     }
     else {
         win.loadFile(path.join(__dirname, '../dist/index.html'));
