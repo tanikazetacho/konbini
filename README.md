@@ -54,13 +54,28 @@ konbini/
 - `yarn electron:dev` - Compila y ejecuta la aplicación Electron en modo desarrollo.
 - `yarn build` - Construye la aplicación para producción (web y Electron).
 - `yarn dist` - Empaqueta la aplicación para distribución usando electron-builder.
-- `yarn preload` - Compila el preload (`preload.ts`) y lo renombra automáticamente a `preload.cjs`
-
+- `yarn preload` - Compila el preload (`preload.ts`) y lo renombra automáticamente a `preload.cjs` (usado internamente por `yarn dev`).
 
 ## 🧠 Detalles importantes
 
 - El `preload.ts` se compila como CommonJS y se renombra automáticamente a `preload.cjs` mediante el script `yarn preload`, lo cual permite que Electron lo cargue correctamente incluso cuando el proyecto usa `"type": "module"` en `package.json`.
 - El contexto seguro entre frontend y backend se maneja vía `contextBridge` expuesto en `window.electronAPI`.
+
+## 🔍 React DevTools en modo desarrollo
+
+Esta aplicación incluye soporte para React Developer Tools durante el desarrollo con Electron.
+
+### 🧩 Cómo funciona
+
+- La extensión de React DevTools fue descargada localmente desde Chrome y copiada al directorio del proyecto en `extensions/react-devtools/`.
+- Electron carga esa extensión automáticamente desde esa ruta al iniciar en modo desarrollo.
+- El hook `__REACT_DEVTOOLS_GLOBAL_HOOK__` se expone desde el `preload.ts` para que DevTools pueda engancharse.
+- En algunos entornos, la pestaña ⚛️ Components no aparece al primer render. Puedes forzarla recargando la ventana con `Cmd + R`.
+
+### 🛠 Recomendaciones
+
+- No elimines `contextIsolation: true`, ya que es requerido para que `contextBridge` y el preload funcionen correctamente.
+- Si modificas `preload.ts`, ejecuta `yarn preload` antes de relanzar la app o simplemente corre `yarn dev`, que ya lo incluye.
 
 ## ❓ ¿Qué es el preload?
 
