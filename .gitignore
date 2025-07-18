@@ -1,0 +1,51 @@
+# Logs
+logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+node_modules
+dist
+dist-ssr
+*.local
+
+# Editor directories and files
+.vscode/*
+!.vscode/extensions.json
+.idea
+.DS_Store
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+
+# Electron distribution files
+dist-electron/preload.js
+
+# TypeScript build info
+*.tsbuildinfo
+
+# Electron build artifacts
+out/
+build/
+
+# Vitest / Jest coverage
+coverage/
+
+# Yarn PnP (optional)
+.yarn/*
+!.yarn/releases
+!.yarn/plugins
+!.yarn/sdks
+!.yarn/versions
+.yarnrc.yml
+
+# macOS system files
+Icon?
+._*
+.Spotlight-V100
+.Trashes

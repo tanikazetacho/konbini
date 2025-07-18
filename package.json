@@ -1,0 +1,30 @@
+{
+  "name": "bama-konbibi",
+  "version": "0.0.1",
+  "private": true,
+  "type": "module",
+  "main": "dist-electron/main.js",
+  "scripts": {
+    "dev:web": "vite",
+    "dev": "concurrently \"vite\" \"yarn electron:dev\"",
+    "electron:dev": "yarn tsc -p tsconfig.electron.json && electron dist-electron/main.js",
+    "build": "vite build && yarn tsc -p tsconfig.electron.json",
+    "dist": "yarn build && electron-builder",
+    "preload": "tsc -p tsconfig.preload.json && mv -f dist-electron/preload.js dist-electron/preload.cjs"
+  },
+  "dependencies": {
+    "react": "^19.1.0",
+    "react-dom": "^19.1.0"
+  },
+  "devDependencies": {
+    "@types/react": "^19.1.8",
+    "@types/react-dom": "^19.1.6",
+    "@vitejs/plugin-react": "^4.6.0",
+    "concurrently": "^9.2.0",
+    "cross-env": "^7.0.3",
+    "electron": "^37.2.3",
+    "electron-builder": "^26.0.12",
+    "typescript": "^5.8.3",
+    "vite": "^7.0.5"
+  }
+}
