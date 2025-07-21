@@ -61,6 +61,20 @@ konbini/
 
 - El `preload.ts` se compila como CommonJS y se renombra automáticamente a `preload.cjs` mediante el script `yarn preload`, lo cual permite que Electron lo cargue correctamente incluso cuando el proyecto usa `"type": "module"` en `package.json`.
 - El contexto seguro entre frontend y backend se maneja vía `contextBridge` expuesto en `window.electronAPI`.
+- El paquete `electron-builder-squirrel-windows` ha sido agregado explícitamente en `package.json` solo para evitar un warning de peer dependency durante la instalación. No se utiliza activamente en el proyecto a menos que se requiera empaquetado con Squirrel en Windows.
+
+## 🧼 Warnings esperados durante instalación
+
+Al ejecutar `yarn install`, es posible que veas advertencias como:
+
+```
+warning electron > @electron/get > global-agent > boolean@3.2.0: Package no longer supported.
+warning electron-builder > app-builder-lib > glob@7.2.3: Glob versions prior to v9 are no longer supported
+...
+```
+
+Estas provienen de dependencias transitorias de Electron y electron-builder, y no afectan el funcionamiento del proyecto.
+
 
 ## ❓ ¿Qué es el preload?
 
