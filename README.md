@@ -129,3 +129,45 @@ El proyecto incluye un archivo `.gitignore` que previene subir archivos innecesa
 - Archivos temporales de TypeScript (`*.tsbuildinfo`)
 
 Esto ayuda a mantener un repositorio limpio y enfocado solo en el código fuente relevante.
+
+## 🎨 Integración con Tailwind CSS v4
+
+Este proyecto utiliza [Tailwind CSS v4](https://tailwindcss.com/blog/tailwindcss-v4) con integración moderna vía Vite.
+
+### ✅ Instalación y configuración
+
+- Tailwind se integra mediante el plugin oficial `@tailwindcss/vite`
+- No se requiere `postcss.config.js`
+- No es necesario un archivo `tailwind.config.ts` a menos que desees extender el tema
+- El archivo global de estilos (`index.css`) debe contener únicamente:
+
+```css
+@import "tailwindcss";
+```
+
+- Este archivo debe ser importado en `main.tsx`:
+
+```ts
+import "@/styles/index.css";
+```
+
+### 🎨 Personalización del tema
+
+Tailwind v4 promueve un enfoque "CSS-first" usando la regla `@theme` directamente en CSS. Por ejemplo:
+
+```css
+@theme {
+  --color-primary: #ef9c2c;
+  --color-secondary: blue;
+  --color-bama-white: #ffffff;
+  --color-bama-purple: #6c63ff;
+}
+```
+
+Estas variables pueden usarse con clases personalizadas o estilos CSS estándar.
+
+### ⚠️ Consideraciones
+
+- Tailwind aplica un reset global de estilos (`preflight`) que puede afectar estilos por defecto del navegador
+- Para restaurar el comportamiento visual esperado, utiliza utilidades como `flex`, `items-center`, `gap`, `text-center`, etc.
+- Evita usar `@import "tailwindcss"` dentro de archivos como `App.css` para prevenir conflictos o duplicaciones de estilos
