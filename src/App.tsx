@@ -1,6 +1,7 @@
 import { useState } from 'react'
 import reactLogo from '@/assets/react.svg'
 import viteLogo from '@/assets/vite.svg'
+import electronLogo from '@/assets/electron.svg'
 import './App.css'
 
 function App() {
@@ -8,16 +9,19 @@ function App() {
 
   return (
     <>
-      <div>
+      <div className="flex items-center justify-between w-full">
         <a href="https://vite.dev" target="_blank">
           <img src={viteLogo} className="logo" alt="Vite logo" />
         </a>
         <a href="https://react.dev" target="_blank">
           <img src={reactLogo} className="logo react" alt="React logo" />
         </a>
+        <a href="https://www.electronjs.org/" target="_blank">
+          <img src={electronLogo} className="logo electron" alt="Electron logo" />
+        </a>
       </div>
-      <h1>BAMA KONBINI</h1>
-      <h2>Vite + React</h2>
+      <h1 className="bg-[var(--color-primary)] p-8 m-8">BAMA KONBINI</h1>
+      <h2>Vite + React + Electron</h2>
       <div className="card">
         <button onClick={() => setCount((count) => count + 1)}>
           count is {count}
@@ -27,7 +31,7 @@ function App() {
         </p>
       </div>
       <p className="read-the-docs">
-        Click on the Vite and React logos to learn more
+        Click on the Vite, React and Electron logos to learn more
       </p>
     </>
   )
