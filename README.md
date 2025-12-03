@@ -54,8 +54,7 @@ konbini/
 - `yarn electron:dev` - Compila y ejecuta la aplicación Electron en modo desarrollo.
 - `yarn build` - Construye la aplicación para producción (web y Electron).
 - `yarn dist` - Empaqueta la aplicación para distribución usando electron-builder.
-- `yarn preload` - Compila el preload (`preload.ts`) y lo renombra automáticamente a `preload.cjs`
-
+- `yarn preload` - Compila el preload (`preload.ts`) y lo renombra automáticamente a `preload.cjs` (usado internamente por `yarn dev`).
 
 ## 🧠 Detalles importantes
 
@@ -75,6 +74,40 @@ warning electron-builder > app-builder-lib > glob@7.2.3: Glob versions prior to 
 
 Estas provienen de dependencias transitorias de Electron y electron-builder, y no afectan el funcionamiento del proyecto.
 
+
+## 🔍 React DevTools en modo desarrollo
+
+Esta aplicación incluye soporte para React Developer Tools durante el desarrollo con Electron.
+
+### 🧩 Cómo funciona
+
+> 🔗 Basado en la guía oficial de Electron: https://www.electronjs.org/docs/latest/tutorial/devtools-extension
+
+- La extensión de React DevTools versión 6.1.5 fue descargada localmente desde Chrome y copiada al directorio del proyecto en `extensions/react-devtools/`.
+- Electron carga esa extensión automáticamente desde esa ruta al iniciar en modo desarrollo.
+- El hook `__REACT_DEVTOOLS_GLOBAL_HOOK__` se expone desde el `preload.ts` para que DevTools pueda engancharse.
+- En algunos entornos, la pestaña ⚛️ Components no aparece al primer render. Puedes forzarla recargando la ventana con `Cmd + R`.
+
+### 🛠 Recomendaciones
+
+- No elimines `contextIsolation: true`, ya que es requerido para que `contextBridge` y el preload funcionen correctamente.
+- Si modificas `preload.ts`, ejecuta `yarn preload` antes de relanzar la app o simplemente corre `yarn dev`, que ya lo incluye.
+
+### ⚠️ Notas sobre mensajes en consola
+
+Durante el desarrollo es posible que aparezcan los siguientes mensajes en la terminal (no en DevTools):
+
+- `"Request Autofill.enable failed..."`
+- `"Request Extensions.getStorageItems failed..."`
+- `"Electron sandboxed_renderer.bundle.js script failed to run"`
+- `"TypeError: object null is not iterable"`
+
+Estos errores provienen de los módulos internos de Chromium o extensiones embebidas como React DevTools y **no afectan el funcionamiento de tu aplicación**.  
+Pueden ser ignorados con seguridad.
+
+Además, el listener `console-message` ha sido actualizado con la firma moderna recomendada por Electron para filtrar correctamente los logs no deseados en la terminal.
+
+![Konbini running with React DevTools](docs/images/yarn-dev-terminal.png)
 
 ## ❓ ¿Qué es el preload?
 

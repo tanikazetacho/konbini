@@ -7,7 +7,7 @@
   "scripts": {
     "dev:web": "vite",
     "dev": "concurrently \"vite\" \"yarn electron:dev\"",
-    "electron:dev": "yarn tsc -p tsconfig.electron.json && electron dist-electron/main.js",
+    "electron:dev": "yarn preload && yarn tsc -p tsconfig.electron.json && electron dist-electron/main.js",
     "build": "vite build && yarn tsc -p tsconfig.electron.json",
     "dist": "yarn build && electron-builder",
     "preload": "tsc -p tsconfig.preload.json && mv -f dist-electron/preload.js dist-electron/preload.cjs"

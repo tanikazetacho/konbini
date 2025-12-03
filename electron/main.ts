@@ -1,4 +1,4 @@
-import { app, BrowserWindow } from 'electron'
+import { app, BrowserWindow, session } from 'electron'
 import * as path from 'node:path'
 import { fileURLToPath } from 'node:url'
 
@@ -18,12 +18,36 @@ function createWindow() {
         height: 768,
         webPreferences: {
             preload: path.join(__dirname, 'preload.cjs'),
+            contextIsolation: true,
+            sandbox: false,
         },
     })
+
+    console.log('✅ Electron main process is running...')
 
     if (isDev) {
         win.loadURL('http://localhost:5173')
         win.webContents.openDevTools()
+        // Filter to suppress noisy internal messages from DevTools
+        win.webContents.on('console-message', (event) => {
+            const { level, message } = event as any;
+            const suppress = [
+                'Autofill.enable',
+                'Autofill.setAddresses',
+                'Extensions.getStorageItems',
+                'sandboxed_renderer.bundle.js',
+            ]
+            if (suppress.some(entry => message.includes(entry))) return;
+
+            console.log(`[Renderer console][${level}]: ${message}`);
+        })
+        const devtoolsPath = path.join(__dirname, '../extensions/react-devtools')
+
+        session.defaultSession.extensions
+            .loadExtension(devtoolsPath, { allowFileAccess: true })
+            .then((ext) => console.log(`✅ React DevTools loaded: ${ext.name}`))
+            .catch((err) => console.error('Failed to load React DevTools:', err))
+
     } else {
         win.loadFile(path.join(__dirname, '../dist/index.html'))
     }
